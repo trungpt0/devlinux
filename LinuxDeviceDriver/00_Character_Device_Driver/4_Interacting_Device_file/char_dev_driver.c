@@ -9,7 +9,7 @@
 
 dev_t dev_num = 0; // Device number
 static struct class *dev_class = NULL; // Device class
-static struct cdev devlinux_cdev; // Character device structure
+static struct cdev mycdev_cdev; // Character device structure
 static char *k_buffer = NULL;
 
 // Function to handle opening the device
@@ -75,21 +75,21 @@ static int __init char_dev_driver_init(void)
     int ret;
 
     /* Register a range of device numbers. The major number will be chosen dynamically. */
-    if ((ret = alloc_chrdev_region(&dev_num, 0, 1, "devlinux_dev")) != 0) {
+    if ((ret = alloc_chrdev_region(&dev_num, 0, 1, "dev_number")) != 0) {
         pr_err("can not alloc device major\n");
         return -1;
     }
     pr_info("Major = %d Minor = %d\n", MAJOR(dev_num), MINOR(dev_num));
 
     /* Create a struct class structure */
-    dev_class = class_create(THIS_MODULE, "devlinux_class");
+    dev_class = class_create(THIS_MODULE, "my_class");
     if (IS_ERR(dev_class)) {
         pr_err("can not create class device\n");
         goto class_err;
     }
 
     /* Creates a device */
-    if (IS_ERR(device_create(dev_class, NULL, dev_num, NULL, "devlinux"))) {
+    if (IS_ERR(device_create(dev_class, NULL, dev_num, NULL, "my_device"))) {
         pr_err("can not create device\n");
         goto dev_err;
     }
