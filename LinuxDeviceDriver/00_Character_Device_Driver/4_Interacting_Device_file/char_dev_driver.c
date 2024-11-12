@@ -9,7 +9,7 @@
 
 dev_t dev_num = 0; // Device number
 static struct class *dev_class = NULL; // Device class
-static struct cdev mycdev_cdev; // Character device structure
+static struct cdev my_cdev; // Character device structure
 static char *k_buffer = NULL;
 
 // Function to handle opening the device
@@ -101,8 +101,8 @@ static int __init char_dev_driver_init(void)
         goto dev_err;
     }
 
-    cdev_init(&devlinux_cdev, &fops);
-    if (cdev_add(&devlinux_cdev, dev_num, 1) < 0) {
+    cdev_init(&my_cdev, &fops);
+    if (cdev_add(&my_cdev, dev_num, 1) < 0) {
         pr_err("can not add character device\n");
         goto cdev_err;
     }
@@ -126,7 +126,7 @@ class_err:
 static void __exit char_dev_driver_exit(void)
 {
     kfree(k_buffer); // Free the kernel buffer
-    cdev_del(&devlinux_cdev); // Remove the character device
+    cdev_del(&my_cdev); // Remove the character device
     device_destroy(dev_class, dev_num); // Removes a device
     class_destroy(dev_class); // Destroys a struct class structure
     unregister_chrdev_region(dev_num, 1); // Unregister a range of device numbers
