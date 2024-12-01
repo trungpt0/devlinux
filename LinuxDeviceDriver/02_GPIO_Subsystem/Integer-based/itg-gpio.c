@@ -1,7 +1,10 @@
+/**
+  * file: itg-gpio.c
+  */
 #include <linux/module.h>
 #include <linux/gpio.h>
 
-#define GPIO_NUMBER 17
+#define GPIO_NUMBER 539
 
 #define LOW     0
 #define HIGH    1
@@ -13,7 +16,8 @@ static int __init integer_based_driver_init(void)
 {
     int ret;
 
-    ret = gpio_request(GPIO_NUMBER, "legacy_gpio");
+    ret = gpio_request(GPIO_NUMBER, "integer_gpio");
+
     if (ret) {
         pr_err("cannot to request GPIO %d\n", GPIO_NUMBER);
         return ret;
