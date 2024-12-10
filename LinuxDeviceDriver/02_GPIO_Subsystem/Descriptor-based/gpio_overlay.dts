@@ -1,0 +1,15 @@
+/dts-v1/;
+/plugin/;
+/ {
+        compatible = "brcm,bcm2835";
+        fragment@0 {
+                target-path = "/";
+                __overlay__ {
+                        my_device {
+                                compatible = "gpio-descriptor-based";
+                                status = "okay";
+                                led27-gpios = <&gpio 27 0>;
+                        };
+                };
+        };
+};

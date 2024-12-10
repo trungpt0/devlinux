@@ -1,9 +1,13 @@
-obj-m += des-gpio.o
+obj-m += dt_gpio.o
 
-KDIR=/lib/modules/$(shell uname -r)/build
+all: module dt
 
-all:
-	make -C $(KDIR) M=$(PWD) modules
-
+module:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+				
+dt: testoverlay.dts
+        dtc -@ -I dts -O dtb -o testoverlay.dtbo testoverlay.dts
+				
 clean:
-	make -C $(KDIR) M=$(PWD) clean
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	rm -rf testoverlay.dtbo
